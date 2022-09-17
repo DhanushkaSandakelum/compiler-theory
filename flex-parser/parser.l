@@ -1,16 +1,28 @@
-%{
-    /* definitions */
+/* definitions */
+%{    
     char *val;
     FILE *outputFile;
 %}
 
+/* Declare states */
+%s A B DEAD  
+
 
 /*rules */
 %%
-[0-9]+          {fprintf(outputFile, "int - %s ", yytext);}
-[a-zA-Z]+       {fprintf(outputFile, "str - %s ", yytext); }
-[ \t\n]+        /* eat up whitespace */
-.               {fprintf(outputFile, "err - %s ", yytext); }
+
+<INITIAL>[0-9]+ BEGIN A;  { yymore();}
+<INITIAL>[a-zA-Z]+ BEGIN B; {yymore();}
+
+<A>[^ \t\r] BEGIN DEAD; {yymore();}
+<A>[ \t\r] BEGIN INITIAL; {fprintf(outputFile, "int - %s ", yytext); }
+
+<B>[^ \t\r] BEGIN DEAD; {yymore(); fprintf(outputFile, "err - %s", yytext);}
+<B>[ \t\r] BEGIN INITIAL; {fprintf(outputFile, "str - %s ", yytext); }
+
+
+<DEAD>[^ \t\r] BEGIN DEAD; {yymore(); fprintf(outputFile, "err - %s", yytext);}
+<DEAD>[ \t\r] BEGIN INITIAL; 
 
 %%
 
