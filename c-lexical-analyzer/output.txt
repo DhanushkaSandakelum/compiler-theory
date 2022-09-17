@@ -1,0 +1,1 @@
+<INTEGER, 1234><STRING, stringx><INTEGER, 56><FLOAT, 78.5><STRING, stringy><STRING, stringx><ERROR, 67.67.87><INTEGER, 6><STRING, string><INTEGER, 28>
