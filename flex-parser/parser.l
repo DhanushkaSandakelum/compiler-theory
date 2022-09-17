@@ -1,5 +1,5 @@
 /* definitions */
-%{    
+%{     
     char *val;
     FILE *outputFile;
 %}
@@ -17,9 +17,8 @@
 <A>[^ \t\r] BEGIN DEAD; {yymore();}
 <A>[ \t\r] BEGIN INITIAL; {fprintf(outputFile, "int - %s ", yytext); }
 
-<B>[^ \t\r] BEGIN DEAD; {yymore(); fprintf(outputFile, "err - %s", yytext);}
+<B>[^ \t\r] BEGIN DEAD; {yymore();}
 <B>[ \t\r] BEGIN INITIAL; {fprintf(outputFile, "str - %s ", yytext); }
-
 
 <DEAD>[^ \t\r] BEGIN DEAD; {yymore(); fprintf(outputFile, "err - %s", yytext);}
 <DEAD>[ \t\r] BEGIN INITIAL; 

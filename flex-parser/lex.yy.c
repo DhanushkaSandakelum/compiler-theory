@@ -648,7 +648,7 @@ BEGIN INITIAL; {fprintf(outputFile, "int - %s ", yytext); }
 case 5:
 YY_RULE_SETUP
 #line 20 "parser.l"
-BEGIN DEAD; {yymore(); fprintf(outputFile, "err - %s", yytext);}
+BEGIN DEAD; {yymore();}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
