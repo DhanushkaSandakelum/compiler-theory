@@ -7,7 +7,12 @@
 /* Declare states */
 %s A B DEAD  
 
-
+/* Rules to find out integers, strings and print error if not */
+/*
+    1. Check WORD contains numbers 0-9 --> Then print <int - WORD>
+    2. Check WORD contains characters a-z or A-Z --> Then print <str - WORD>
+    3. Check WORD not matches any of those 2 conditions --> Then print <err - WORD>
+*/
 /*rules */
 %%
 
@@ -20,13 +25,18 @@
 <B>[^ \t\r] BEGIN DEAD; {yymore();}
 <B>[ \t\r] BEGIN INITIAL; {fprintf(outputFile, "str - %s ", yytext); }
 
-<DEAD>[^ \t\r] BEGIN DEAD; {yymore(); fprintf(outputFile, "err - %s", yytext);}
-<DEAD>[ \t\r] BEGIN INITIAL; 
+<DEAD>[^ \t\r] BEGIN DEAD; {yymore();}
+<DEAD>[ \t\r] BEGIN INITIAL; { fprintf(outputFile, "err - %s", yytext);}
 
 %%
 
 yywrap() {}
 
+/*
+    1. Read input and output file
+    2. Specify input options as read and output option as write
+    3. Perform lexical analysis and read file and populate the content
+*/
 main(argc, argv)
 int argc; char **argv;{
     if(argc > 1) {

@@ -381,8 +381,14 @@ char *yytext;
 #define B 2
 #define DEAD 3
   
+/* Rules to find out integers, strings and print error if not */
+/*
+    1. Check WORD contains numbers 0-9 --> Then print <int - WORD>
+    2. Check WORD contains characters a-z or A-Z --> Then print <str - WORD>
+    3. Check WORD not matches any of those 2 conditions --> Then print <err - WORD>
+*/
 /*rules */
-#line 386 "lex.yy.c"
+#line 392 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -533,10 +539,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 12 "parser.l"
+#line 17 "parser.l"
 
 
-#line 540 "lex.yy.c"
+#line 546 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -627,50 +633,50 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "parser.l"
+#line 19 "parser.l"
 BEGIN A;  { yymore();}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 15 "parser.l"
+#line 20 "parser.l"
 BEGIN B; {yymore();}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 17 "parser.l"
+#line 22 "parser.l"
 BEGIN DEAD; {yymore();}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 18 "parser.l"
+#line 23 "parser.l"
 BEGIN INITIAL; {fprintf(outputFile, "int - %s ", yytext); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 20 "parser.l"
+#line 25 "parser.l"
 BEGIN DEAD; {yymore();}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 21 "parser.l"
+#line 26 "parser.l"
 BEGIN INITIAL; {fprintf(outputFile, "str - %s ", yytext); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "parser.l"
-BEGIN DEAD; {yymore(); fprintf(outputFile, "err - %s", yytext);}
+#line 28 "parser.l"
+BEGIN DEAD; {yymore();}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "parser.l"
-BEGIN INITIAL; 
+#line 29 "parser.l"
+BEGIN INITIAL; { fprintf(outputFile, "err - %s", yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 27 "parser.l"
+#line 31 "parser.l"
 ECHO;
 	YY_BREAK
-#line 674 "lex.yy.c"
+#line 680 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(A):
 case YY_STATE_EOF(B):
@@ -1559,11 +1565,16 @@ int main()
 	return 0;
 	}
 #endif
-#line 27 "parser.l"
+#line 31 "parser.l"
 
 
 yywrap() {}
 
+/*
+    1. Read input and output file
+    2. Specify input options as read and output option as write
+    3. Perform lexical analysis and read file and populate the content
+*/
 main(argc, argv)
 int argc; char **argv;{
     if(argc > 1) {
